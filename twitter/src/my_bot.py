@@ -1,5 +1,6 @@
 import tweepy
 import secret_keys
+import time
 print('this is my twitter bot')
 
 
@@ -26,15 +27,21 @@ def store_last_seen_id(last_seen_id, file_name):
     f_write.close()
     return
 
-last_seen_id = retrieve_last_seen_id(FILE_NAME)
-mentions = api.mentions_timeline(
-                last_seen_id,
-                tweet_mode='extended')
+def reply_to_tweets():
+    last_seen_id = retrieve_last_seen_id(FILE_NAME)
+    mentions = api.mentions_timeline(
+                    last_seen_id,
+                    tweet_mode='extended')
 
-for mention in reversed(mentions):
-    print(str(mention.id) + "-"+ mention.full_text)
-    last_seen_id = mention.id
-    store_last_seen_id(last_seen_id, FILE_NAME)
+    for mention in reversed(mentions):
+        print(str(mention.id) + "-"+ mention.full_text)
+        last_seen_id = mention.id
+        store_last_seen_id(last_seen_id, FILE_NAME)
 
-    if 'fail' in  mention.full_text.lower():
-        print("found the fail")
+        if 'fail' in  mention.full_text.lower():
+            print("found the fail")
+            api.update_status('@' + mention.user.screen_name + '#Woot', mention.id)
+
+while True:
+    reply_to_tweets()
+    time.sleep(2)
