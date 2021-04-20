@@ -51,8 +51,12 @@ def reply_to_tweets():
 
         if 'winning' in mention.full_text.lower():
             print("found the #")
-            api.update_status('@' + mention.user.screen_name + 'Woot', mention.id)
+            try:
+                api.update_status('@' + mention.user.screen_name + 'Woot', mention.id)
+            except tweepy.TweepError as error:
+                print("ERROR:", error)
+
 
 while True:
     reply_to_tweets()
-    time.sleep(2)
+    time.sleep(15)
