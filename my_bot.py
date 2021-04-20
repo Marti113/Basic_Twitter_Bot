@@ -49,9 +49,9 @@ def reply_to_tweets():
         last_seen_id = mention.id
         store_last_seen_id(last_seen_id, FILE_NAME)
 
-        if 'fail' in  mention.full_text.lower():
-            print("found the fail")
-            api.update_status('@' + mention.user.screen_name + '#Woot', mention.id)
+        if 'winning' in  mention.full_text.lower():
+            print("found the #")
+            api.update_status('@' + mention.user.screen_name + 'winner winner chicken dinner', mention.id)
 
 while True:
     reply_to_tweets()
