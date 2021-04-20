@@ -1,13 +1,24 @@
 import tweepy
-import secret_keys
+from os import environ
+try:
+    import secret_keys
+except ImportError:
+    pass
+
 import time
 print('this is my twitter bot')
 
 
-CONSUMER_KEY= secret_keys.CONSUMER_KEY
-CONSUMER_SECRET= secret_keys.CONSUMER_SECRET
-ACCESS_KEY=secret_keys.ACCESS_KEY
-ACCESS_SECRET=secret_keys.ACCESS_SECRET
+if 'CONSUMER_KEY' in environ:
+    CONSUMER_KEY = environ['CONSUMER_KEY']
+    CONSUMER_SECRET= environ['CONSUMER_SECRET']
+    ACCESS_KEY= environ['ACCESS_KEY']
+    ACCESS_SECRET= environ['ACCESS_SECRET']
+else:
+    CONSUMER_KEY = secret_keys.CONSUMER_KEY
+    CONSUMER_SECRET = secret_keys.CONSUMER_SECRET
+    ACCESS_KEY = secret_keys.ACCESS_KEY
+    ACCESS_SECRET = secret_keys.ACCESS_SECRET
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
